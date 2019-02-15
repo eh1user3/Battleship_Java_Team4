@@ -42,6 +42,7 @@ public class Main {
     }
 
     private static void StartGame() {
+
         Scanner scanner = new Scanner(System.in);
 
         console.print("\033[2J\033[;H");
@@ -65,17 +66,24 @@ public class Main {
             if (isHit) {
                 beep();
 
-                console.println("                \\         .  ./");
-                console.println("              \\      .:\" \";'.:..\" \"   /");
-                console.println("                  (M^^.^~~:.'\" \").");
-                console.println("            -   (/  .    . . \\ \\)  -");
-                console.println("               ((| :. ~ ^  :. .|))");
-                console.println("            -   (\\- |  \\ /  |  /)  -");
-                console.println("                 -\\  \\     /  /-");
-                console.println("                   \\  \\   /  /");
+                console.println("                \\         .  ./",  Ansi.Attribute.BOLD, Ansi.FColor.RED, Ansi.BColor.BLACK);
+                console.println("              \\      .:\" \";'.:..\" \"   /",  Ansi.Attribute.BOLD, Ansi.FColor.RED, Ansi.BColor.BLACK);
+                console.println("                  (M^^.^~~:.'\" \").",  Ansi.Attribute.BOLD, Ansi.FColor.RED, Ansi.BColor.BLACK);
+                console.println("            -   (/  .    . . \\ \\)  -",  Ansi.Attribute.BOLD, Ansi.FColor.RED, Ansi.BColor.BLACK);
+                console.println("               ((| :. ~ ^  :. .|))",  Ansi.Attribute.BOLD, Ansi.FColor.RED, Ansi.BColor.BLACK);
+                console.println("            -   (\\- |  \\ /  |  /)  -",  Ansi.Attribute.BOLD, Ansi.FColor.RED, Ansi.BColor.BLACK);
+                console.println("                 -\\  \\     /  /-",  Ansi.Attribute.BOLD, Ansi.FColor.RED, Ansi.BColor.BLACK);
+                console.println("                   \\  \\   /  /",  Ansi.Attribute.BOLD, Ansi.FColor.RED, Ansi.BColor.BLACK);
             }
 
-            console.println(isHit ? "Yeah ! Nice hit !" : "Miss");
+
+
+            if (isHit) {
+                console.println("Yeah ! Nice hit !",  Ansi.Attribute.BOLD, Ansi.FColor.YELLOW, Ansi.BColor.RED);
+
+            } else {
+                console.println("Miss :(",  Ansi.Attribute.BOLD, Ansi.FColor.BLUE, Ansi.BColor.BLACK);
+            }
 
             position = getRandomPosition();
             isHit = GameController.checkIsHit(myFleet, position);
@@ -124,21 +132,63 @@ public class Main {
     }
 
     private static void InitializeMyFleet() {
+//        myFleet = GameController.initializeShips();
+//
+//        myFleet.get(0).getPositions().add(new Position(Letter.B, 4));
+//        myFleet.get(0).getPositions().add(new Position(Letter.B, 5));
+//        myFleet.get(0).getPositions().add(new Position(Letter.B, 6));
+//        myFleet.get(0).getPositions().add(new Position(Letter.B, 7));
+//        myFleet.get(0).getPositions().add(new Position(Letter.B, 8));
+//
+//        myFleet.get(1).getPositions().add(new Position(Letter.E, 6));
+//        myFleet.get(1).getPositions().add(new Position(Letter.E, 7));
+//        myFleet.get(1).getPositions().add(new Position(Letter.E, 8));
+//        myFleet.get(1).getPositions().add(new Position(Letter.E, 9));
+//
+//        myFleet.get(2).getPositions().add(new Position(Letter.A, 3));
+//        myFleet.get(2).getPositions().add(new Position(Letter.B, 3));
+//        myFleet.get(2).getPositions().add(new Position(Letter.C, 3));
+//
+//        myFleet.get(3).getPositions().add(new Position(Letter.F, 8));
+//        myFleet.get(3).getPositions().add(new Position(Letter.G, 8));
+//        myFleet.get(3).getPositions().add(new Position(Letter.H, 8));
+//
+//        myFleet.get(4).getPositions().add(new Position(Letter.C, 5));
+//        myFleet.get(4).getPositions().add(new Position(Letter.C, 6));
+
         Scanner scanner = new Scanner(System.in);
         myFleet = GameController.initializeShips();
 
         console.println("Please position your fleet (Game board has size from A to H and 1 to 8) :");
 
+        int k = 0;
         for (Ship ship : myFleet) {
+
+            if(k == 0) {
+                console = new ColoredPrinter.Builder(1, false).background(Ansi.BColor.BLUE).build();
+            } else if(k == 1) {
+                console = new ColoredPrinter.Builder(1, false).background(Ansi.BColor.YELLOW).build();
+            } else if(k == 2) {
+                console = new ColoredPrinter.Builder(1, false).background(Ansi.BColor.RED).build();
+            } else if(k == 3) {
+                console = new ColoredPrinter.Builder(1, false).background(Ansi.BColor.GREEN).build();
+            } else if(k == 4) {
+                console = new ColoredPrinter.Builder(1, false).background(Ansi.BColor.CYAN).build();
+            }
+
             console.println("");
             console.println(String.format("Please enter the positions for the %s (size: %s)", ship.getName(), ship.getSize()));
+
             for (int i = 1; i <= ship.getSize(); i++) {
                 console.println(String.format("Enter position %s of %s (i.e A3):", i, ship.getSize()));
 
                 String positionInput = scanner.next();
                 ship.addPosition(positionInput);
             }
+
+            k++;
         }
+        console.clear();
     }
 
     private static void InitializeEnemyFleet() {
