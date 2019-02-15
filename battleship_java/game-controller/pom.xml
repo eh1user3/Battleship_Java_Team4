@@ -5,6 +5,7 @@
   <parent>
     <groupId>org.scrum.psd.battleship</groupId>
     <artifactId>battleship</artifactId>
+    <version>1.0.1-SNAPSHOT</version>
     <version>1.0.0-SNAPSHOT</version>
   </parent>
 
