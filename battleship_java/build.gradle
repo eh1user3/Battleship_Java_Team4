@@ -1,0 +1,47 @@
+plugins {
+    id "org.sonarqube" version "2.6.2"
+}
+
+allprojects {
+    apply plugin: 'base'
+    apply plugin: 'jacoco'
+
+    repositories {
+        jcenter()
+    }
+
+    jacoco {
+        toolVersion = '0.8.1'
+    }
+}
+
+subprojects {
+    apply plugin: 'java'
+
+    group 'org.scrum.psd.battleship'
+    version '1.0.0-SNAPSHOT'
+
+    sourceCompatibility = 1.8
+
+    dependencies {
+        testCompile 'junit:junit:4.12',
+                'org.slf4j:slf4j-api:1.7.25',
+                'info.cukes:cucumber-junit:1.2.5',
+                'info.cukes:cucumber-java:1.2.5',
+                'org.jacoco:org.jacoco.ant:0.8.1'
+    }
+}
+
+task copyTestResults {
+    doLast {
+        copy {
+            from fileTree('.').files
+            into 'build/test-results'
+            include 'TEST-*.xml'
+        }
+    }
+}
+
+task jacocoMerge(type: JacocoMerge) {
+    executionData fileTree('.').include('**/build/jacoco/*.exec')
+}
