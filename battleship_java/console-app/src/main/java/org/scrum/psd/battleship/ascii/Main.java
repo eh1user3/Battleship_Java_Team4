@@ -109,6 +109,19 @@ public class Main {
         console.print("\007");
     }
 
+
+    protected static String validate(String input) {
+        try {
+            Letter letter = Letter.valueOf(input.toUpperCase().substring(0, 1));
+            int number = Integer.parseInt(input.substring(1));
+        } catch (Exception e) {
+            console.println("Invalid Input. Please try again",  Ansi.Attribute.BOLD, Ansi.FColor.RED, Ansi.BColor.BLUE);
+            Scanner scanner = new Scanner(System.in);
+            input = validate(scanner.next());
+        }
+        return input;
+    }
+
     protected static Position parsePosition(String input) {
         Letter letter = Letter.valueOf(input.toUpperCase().substring(0, 1));
         int number = Integer.parseInt(input.substring(1));
@@ -181,8 +194,7 @@ public class Main {
 
             for (int i = 1; i <= ship.getSize(); i++) {
                 console.println(String.format("Enter position %s of %s (i.e A3):", i, ship.getSize()));
-
-                String positionInput = scanner.next();
+                String positionInput = validate(scanner.next());
                 ship.addPosition(positionInput);
             }
 
