@@ -2,10 +2,12 @@ language: java
 install: true
 install: gradle wrapper --gradle-version 4.2
 
-jdk:
-- 1.8
 
-script: gradlew build
+jdk:
+  - oraclejdk8
+
+script:
+  - ./gradlew build
 
 
 notifications:
